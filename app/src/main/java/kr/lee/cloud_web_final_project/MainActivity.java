@@ -17,25 +17,26 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.amazonaws.mobileconnectors.lambdainvoker.*;
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.regions.Regions;
 
 import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
+        public interface MyInterface {
+
+        @LambdaFunction
+        ResponseClass AndroidBackendLambdaFunction(RequestClass request);
+
+    }
+}
     ListView list;
     int count = 4;
     ArrayList<String> titles=new ArrayList<String>();
 
-    Integer[] images ={
-            R.drawable.gong6,
-            R.drawable.gong2,
-            R.drawable.gong3,
-            R.drawable.gong5,
-            R.drawable.gong10,
-            R.drawable.gong7,
-            R.drawable.gong8,
-            R.drawable.gong9
-    };
+   
     ArrayList<String>content_text = new ArrayList<String>();
 
     ArrayList<String> tags = new ArrayList<String>();
@@ -46,32 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);//레이아웃 설정
-        tags.add("공연장");
-        tags.add("공연장");
-        tags.add("공연장");
-        tags.add("공연장");
-        tags.add("공연장");
-        tags.add("공연장");
-        tags.add("공연장");
-        tags.add("공연장");
-
-        titles.add("코엑스 아트홀");
-        titles.add("신촌 문화발전소");
-        titles.add("서울광장");
-        titles.add("프로젝트박스 시야");
-        titles.add("정효 아트센터");
-        titles.add("구로 꿈나무극장");
-        titles.add("용산 더줌아트센터");
-        titles.add("용산 일산홀");
-
-        content_text.add("서울시 구로구 구로동 3-39");
-        content_text.add("서울시 구로구 구로동 3-39");
-        content_text.add("서울특별시 중구 태평로2가 17-3\n\n02-120\n\nhttps://cultureseoul.co.kr/");
-        content_text.add("서울시 구로구 구로동 3-39");
-        content_text.add("서울시 구로구 구로동 3-39");
-        content_text.add("맛있어요");
-        content_text.add("맛있어요");
-        content_text.add("맛있어요");//각 변수들에 정보 저장합니다.
+        
         Button b = (Button)findViewById(R.id.button01);
         text= (TextView)findViewById(R.id.tt);
         b.setOnClickListener(new View.OnClickListener() {//글쓰기 버튼을 누르면 Activity2가 실행된다
@@ -127,6 +103,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+CognitoCachingCredentialsProvider cognitoProvider = new CognitoCachingCredentialsProvider(
+                this.getApplicationContext(), "identity-pool-id", Regions.US_EAST_1);
+        LambdaInvokerFactory factory = new LambdaInvokerFactory(this.getApplicationContext(),
+                Regions.US_EAST_1, cognitoProvider);
+        final MyInterface myInterface = factory.build(MyInterface.class);
+
+        RequestClass request = new RequestClass("SPACE", "ETC");
+        new AsyncTask<RequestClass, Void, ResponseClass>() {
+            @Override
+            protected ResponseClass doInBackground(RequestClass... params) {
+
+                try {
+                    return myInterface.AndroidBackendLambdaFunction(params[0]);
+                } catch (LambdaFunctionException lfe) {
+                    Log.e("Tag", "Failed to invoke echo", lfe);
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(ResponseClass result) {
+                if (result == null) {
+                    return;
+                }
+
+                // Do a toast
+                Toast.makeText(MainActivity.this, result.getGreetings(), Toast.LENGTH_LONG).show();
+            }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {//글쓰기를 완료하면 글 정보를 받아옵니다.
