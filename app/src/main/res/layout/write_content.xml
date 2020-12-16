@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="title"
+        android:background="@android:color/background_light"
+        android:id="@+id/title"
+        android:textSize="30dp"
+
+        style="text-decoration: underline"/>
+    <!-- 항상 앞에 Title 글씨를 더하고 쓰세요-->
+
+    <EditText
+        android:lines="20"
+        android:maxLines="30"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@android:color/background_light"
+        android:hint="여기를 누르면 글을 쓸 수 있습니다."
+        android:id="@+id/write"/>
+    <Spinner
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@android:color/background_light"
+        android:prompt="@string/hash_tags"
+        android:id="@+id/select_tag">
+
+    </Spinner>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/confirm_wrtting"
+            android:layout_margin="10dp"
+            android:background="@android:color/background_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="완료"/>
+        <Button
+            android:id="@+id/cancle_writting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:background="@android:color/background_light"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

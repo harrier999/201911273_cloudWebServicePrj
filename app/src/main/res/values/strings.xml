@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">sleepy</string>
+    <string name="planet_prompt">행성을 선택하시오</string>
+    <string-array name="planets_array">
+        <item>수성</item>
+        <item>금성</item>
+        <item>목성</item>
+        <item>토성</item>
+        <item>천왕성</item>
+
+    </string-array>
+    <string name="hash_tags"></string>
+    <string-array name="hash_tags_array">
+        <item>공연장</item>
+        <item>박물관</item>
+        <item>미술관</item>
+        <item>문화예술관</item>
+        <item>문화원</item>
+        <item>도서관</item>
+        <item>기타</item>
+    </string-array>
+
+</resources>
